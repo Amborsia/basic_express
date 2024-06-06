@@ -3,7 +3,7 @@
  * @swagger
  * tags:
  *   name: post
- *   description: 게시글관련 작업이 이쪽입니다
+ *   description: 게시글관련 작업이 이쪽입니다~~~~
  */
 
 /**
