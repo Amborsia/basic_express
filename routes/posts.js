@@ -97,18 +97,18 @@
 
 /**
  * @swagger
- * /board/{pw}:
+ * /board/{id}:
  *   put:
  *     summary: 게시글 수정 API
- *     description: 비밀번호가 같다면 포스트를 수정합니다
+ *     description: 비밀번호가 같다면 포스트를 수정합니다 response body로 pw를 받기때문에 url은 id로 넣습니다
  *     tags: [post]
  *     parameters:
  *       - in: path
- *         name: pw
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         description: POST PW
+ *         description: POST ID
  *     requestBody:
  *       required: true
  *       content:

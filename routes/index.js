@@ -4,7 +4,7 @@ const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
 const app = express();
-const port = 3000;
+const port = 5000;
 
 // const userRoutes = require('./users');
 const commentRoutes = require('./comments');
@@ -25,7 +25,7 @@ const swaggerDefinition = {
     },
     servers: [
         {
-            url: 'http://localhost:3000',
+            url: 'http://13.125.209.146:5000',
             description: 'Development server',
         },
     ],
@@ -47,5 +47,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
+    console.log(`Server is running at http://13.125.209.146:${port}`);
 });
