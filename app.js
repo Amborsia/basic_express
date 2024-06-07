@@ -2,18 +2,25 @@
 const express = require('express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+const connect = require('./schemas');
 
+connect();
 const app = express();
 const port = 5000;
 
 // const userRoutes = require('./users');
+
 const commentRoutes = require('./routes/comments');
 const postRoutes = require('./routes/posts');
+// const indexRoutes = require('./routes/index');
+// const userRoutes = require('./routes/users');
 
 // Using routes
 // app.use('/api/users', userRoutes);
-app.use('/api/comments', commentRoutes);
-app.use('/api/posts', postRoutes);
+// app.use('/api/comments', commentRoutes);
+// app.use('/api/posts', postRoutes);
+
+app.use("/api", [commentRoutes, postRoutes]);
 
 // Swagger 설정
 const swaggerDefinition = {
@@ -47,7 +54,7 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server is running at http://13.125.209.146:${port}`);
+    console.log(`Server is running at http://localhost:${port}`);
 });
 
 

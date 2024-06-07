@@ -10,26 +10,42 @@
  * @swagger
  * /board:
  *   get:
- *     summary: 전체 게시글 목록 조회
+ *     summary: 게시글 목록 조회
  *     tags: [post]
+ *     description: 게시글 목록을 조회합니다.
  *     responses:
  *       200:
- *         description: 전체 게시글 목록
+ *         description: 성공적으로 게시글 목록을 조회한 경우
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                   title:
- *                     type: string
- *                   date:
- *                     type: string
- *                     format: date-time
- *                   
+ *               type: object
+ *               properties:
+ *                 goods:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         description: 게시글의 ID
+ *                       title:
+ *                         type: string
+ *                         description: 게시글의 제목
+ *                       date:
+ *                         type: string
+ *                         format: date-time
+ *                         description: 게시글 작성 날짜
+ *       400:
+ *         description: 게시글 조회 실패한 경우
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 errorMessage:
+ *                   type: string
+ *                   description: 에러 메시지
  */
 
 /**
@@ -168,4 +184,18 @@
 
 const express = require('express');
 const router = express.Router();
+const Goods = require('../schemas/post');
+
+
+router.get('/board', async (req, res) => {
+    const goods = await Goods.find({}, { id: 1, title: 1, date: 1 })
+        .sort("-date").exec();
+
+    if (goods) {
+        return res.status(200).json({ goods: goods });
+    } else {
+        return res.status(400).json({ Errormessage: '게시글 조회 실패' });
+    }
+})
+
 module.exports = router;

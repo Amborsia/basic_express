@@ -4,14 +4,16 @@
     "dev": "nodemon --watch ./ ./app.js"
   },
   "dependencies": {
+    "cookie-parser": "^1.4.6",
     "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.4.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   },
   "name": "jungle_board",
   "version": "1.0.0",
   "main": "app.js",
-  "devDependencies": {},
   "keywords": [],
   "author": "",
   "license": "ISC",
