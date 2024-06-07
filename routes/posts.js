@@ -52,27 +52,49 @@
  * @swagger
  * /board:
  *   post:
- *     summary: 게시글 작성 API
+ *     summary: 게시글 작성
  *     tags: [post]
+ *     description: 새로운 게시글을 작성합니다.
  *     requestBody:
  *       required: true
  *       content:
- *        application/json:
- *          schema:
- *            type: object
- *            properties:
- *                title:
- *                  type: string
- *                id:
- *                  type: string
- *                pw:
- *                  type: string
- *                content:
- *                  type: string                     
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: 게시글 제목
+ *               id:
+ *                 type: string
+ *                 description: 작성자 ID
+ *               pw:
+ *                 type: string
+ *                 description: 게시글 비밀번호
+ *               content:
+ *                 type: string
+ *                 description: 게시글 내용
  *     responses:
  *       201:
- *        description: 게시글 작성
- *                   
+ *         description: 새로운 게시글이 성공적으로 작성된 경우
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 result:
+ *                   type: string
+ *                   description: 요청 결과
+ *       400:
+ *         description: 요청이 잘못된 경우
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 errorMessage:
+ *                   type: string
+ *                   description: 에러 메시지
  */
 
 /**
