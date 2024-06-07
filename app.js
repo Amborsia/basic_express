@@ -2,9 +2,9 @@
 const express = require('express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
-const connect = require('./schemas');
 
-connect();
+
+
 const app = express();
 const port = 5000;
 
@@ -12,15 +12,18 @@ const port = 5000;
 
 const commentRoutes = require('./routes/comments');
 const postRoutes = require('./routes/posts');
+const connect = require('./schemas');
 // const indexRoutes = require('./routes/index');
 // const userRoutes = require('./routes/users');
-
+connect();
 // Using routes
 // app.use('/api/users', userRoutes);
 // app.use('/api/comments', commentRoutes);
 // app.use('/api/posts', postRoutes);
-
+app.use(express.json()); //json 파싱해서 req.body 만들어줌
 app.use("/api", [commentRoutes, postRoutes]);
+
+
 
 // Swagger 설정
 const swaggerDefinition = {

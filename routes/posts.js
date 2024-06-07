@@ -63,7 +63,7 @@
  *            properties:
  *                title:
  *                  type: string
- *                name:
+ *                id:
  *                  type: string
  *                pw:
  *                  type: string
@@ -196,6 +196,13 @@ router.get('/board', async (req, res) => {
     } else {
         return res.status(400).json({ Errormessage: '게시글 조회 실패' });
     }
-})
+});
+
+router.post("/board", async (req, res) => {
+    console.log(req.body);
+    const { title, id, pw, content } = req.body;
+    await Goods.create({ title: title, id: id, pw: pw, content: content });
+    return res.status(201).json({ result: 'success' });
+});
 
 module.exports = router;

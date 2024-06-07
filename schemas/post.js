@@ -8,12 +8,20 @@ const goodsSchema = new mongoose.Schema({
     },
     title: {
         type: String,
-        required: true,
+        required: true
     },
     date: {
         type: Date,
-        default: Date.now,
+        default: Date.now
     },
+    content: {
+        type: String,
+        required: true
+    },
+    pw: {
+        type: String,
+        required: true
+    }
 })
 
 module.exports = mongoose.model('Goods', goodsSchema);
