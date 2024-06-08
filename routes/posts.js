@@ -295,15 +295,13 @@ router.get('/board', async (req, res) => {
 router.post("/board", verifyToken, async (req, res) => {
     console.log(req.body);
     const { title, content } = req.body;
-    await Goods.create({ title: title, content: content });
+    await Goods.create({ title: title, content: content, email: req.user.email, nickname: res.locals.nickname });
     return res.status(201).json({ result: 'success' });
 });
 
 router.get('/board/:id', async (req, res) => {
     const { id } = req.params;
-
-    const boards = await Goods.find({ id: id }, { title: 1, id: 1, date: 1 }).exec();
-
+    const boards = await Goods.find({ email: id }, { _id: 0, title: 1, nickname: 1, date: 1, content: 1 }).exec();
     // const boards = await Goods.find({goodsId}, { title: 1, id: 1, date: 1 });
     if (boards.length > 0) {
         return res.status(200).json({ boards });
