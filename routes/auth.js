@@ -27,6 +27,63 @@
  *         description: 서버 오류가 발생했습니다. 사용자 등록에 실패했습니다.
  */
 
+/**
+ * @swagger
+ * /login:
+ *   post:
+ *     summary: 유저 로그인
+ *     description: 이메일과 비밀번호로 유저 로그인을 수행합니다.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: 유저 이메일
+ *                 example: example@example.com
+ *               password:
+ *                 type: string
+ *                 description: 유저 비밀번호
+ *                 example: "password123"
+ *     responses:
+ *       '200':
+ *         description: 성공적으로 로그인됨
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 result:
+ *                   type: string
+ *                   description: 로그인 결과 메시지
+ *                   example: "Login 성공!"
+ *       '400':
+ *         description: 올바르지 않은 유저 정보
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: 에러 메시지
+ *                   example: "유저정보가 올바르지 않습니다."
+ *       '500':
+ *         description: 서버 에러
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: 에러 메시지
+ *                   example: "로그인 실패"
+ */
 
 
 const express = require('express');
@@ -56,7 +113,7 @@ router.post("/login", async (req, res) => {
         if (user) {
             const token = jwt.sign({ userId: email }, secretKey, { expiresIn: '1h' });
             res.cookie('token', token, { httpOnly: true });
-            return res.status(200).json({ message: "Login 성공!" });
+            return res.status(200).json({ result: "Login 성공!" });
         } else {
             return res.status(400).json({ error: "유저정보가 올바르지 않습니다." });
         }
