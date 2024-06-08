@@ -54,7 +54,7 @@ router.post("/login", async (req, res) => {
     try {
         const user = await authService.validateUser(email, password);
         if (user) {
-            const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
+            const token = jwt.sign({ userId: email }, secretKey, { expiresIn: '1h' });
             res.cookie('token', token, { httpOnly: true });
             return res.status(200).json({ message: "Login 성공!" });
         } else {
