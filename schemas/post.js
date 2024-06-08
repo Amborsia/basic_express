@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const goodsSchema = new mongoose.Schema({
-    id: {
+    nickname: {
         type: String,
         required: true,
         unique: true
@@ -15,10 +15,6 @@ const goodsSchema = new mongoose.Schema({
         default: Date.now
     },
     content: {
-        type: String,
-        required: true
-    },
-    pw: {
         type: String,
         required: true
     }

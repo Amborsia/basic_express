@@ -278,10 +278,11 @@
 const express = require('express');
 const router = express.Router();
 const Goods = require('../schemas/post');
+const verifyToken = require('../middlewares/auth-middleware');
 
 
 router.get('/board', async (req, res) => {
-    const goods = await Goods.find({}, { id: 1, title: 1, date: 1 })
+    const goods = await Goods.find({}, { _id: 0, nickname: 1, title: 1, date: 1 })
         .sort("-date").exec();
 
     if (goods) {
@@ -293,8 +294,8 @@ router.get('/board', async (req, res) => {
 
 router.post("/board", async (req, res) => {
     console.log(req.body);
-    const { title, id, pw, content } = req.body;
-    await Goods.create({ title: title, id: id, pw: pw, content: content });
+    const { title, content, nickname } = req.body;
+    await Goods.create({ title: title, content: content, nickname: nickname });
     return res.status(201).json({ result: 'success' });
 });
 

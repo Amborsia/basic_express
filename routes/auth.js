@@ -111,8 +111,8 @@ router.post("/login", async (req, res) => {
     try {
         const user = await authService.validateUser(email, password);
         if (user) {
-            const token = jwt.sign({ userId: email }, secretKey, { expiresIn: '1h' });
-            res.cookie('token', token, { httpOnly: true });
+            const token = jwt.sign({ userId: user._id.toString() }, secretKey, { expiresIn: '1h' });
+            res.cookie('token', token);
             return res.status(200).json({ result: "Login 성공!" });
         } else {
             return res.status(400).json({ error: "유저정보가 올바르지 않습니다." });
