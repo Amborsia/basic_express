@@ -1,3 +1,34 @@
+/**
+ * @swagger
+ * /register:
+ *   post:
+ *     summary: 사용자 등록
+ *     description: 닉네임, 이메일 및 비밀번호를 사용하여 새로운 사용자를 등록합니다.
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nickname:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: 새로운 사용자가 성공적으로 등록되었습니다.
+ *       400:
+ *         description: 요청이 잘못되었습니다. 필수 필드가 누락되었거나 형식이 잘못되었습니다.
+ *       500:
+ *         description: 서버 오류가 발생했습니다. 사용자 등록에 실패했습니다.
+ */
+
+
+
 const express = require('express');
 
 
