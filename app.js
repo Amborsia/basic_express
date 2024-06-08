@@ -2,11 +2,13 @@
 const express = require('express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+const dot = require('dotenv');
 
 
 
 const app = express();
 const port = 5000;
+dot.config();
 
 // const userRoutes = require('./users');
 

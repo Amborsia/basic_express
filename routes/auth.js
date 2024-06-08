@@ -30,10 +30,11 @@
 
 
 const express = require('express');
-
-
+const jwt = require('jsonwebtoken');
 const authService = require('../services/authService');
 const router = express.Router();
+
+const secretKey = process.env.JWT_SECRET_KEY;
 
 router.post("/register", async (req, res) => {
     const { nickname, password, email, password_confirm } = req.body;
