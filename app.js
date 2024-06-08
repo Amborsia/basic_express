@@ -7,7 +7,7 @@ const dot = require('dotenv');
 
 
 const app = express();
-const port = 5000;
+const port = 4000;
 dot.config();
 
 // const userRoutes = require('./users');
@@ -38,7 +38,7 @@ const swaggerDefinition = {
     },
     servers: [
         {
-            url: 'http://13.125.209.146:5000',
+            url: 'http://13.125.209.146:4000',
             description: 'Development server',
         },
     ],

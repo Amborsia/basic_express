@@ -47,6 +47,24 @@ router.post("/register", async (req, res) => {
     } catch (err) {
         res.status(500).json({ err: "회원가입이 정상적으로 처리되지 않았습니다." });
     }
-})
+});
+
+router.post("/login", async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const user = await authService.validateUser(email, password);
+        if (user) {
+            const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
+            res.cookie('token', token, { httpOnly: true });
+            return res.status(200).json({ message: "Login 성공!" });
+        } else {
+            return res.status(400).json({ error: "유저정보가 올바르지 않습니다." });
+        }
+    } catch (error) {
+        res.status(500).json({ error: "로그인 실패" });
+    }
+});
+
+
 
 module.exports = router;
