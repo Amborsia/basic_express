@@ -169,13 +169,13 @@ comment_router.post("/board/:postId/comments", verifyToken, async (req, res) => 
     };
 })
 
-comment_router.put("/board/comments/:commentId", async (req, res) => {
+comment_router.put("/board/comments/:commentId", verifyToken, async (req, res) => {
     const { commentId } = req.params;
-    const { content } = req.body;
+    const { content, date } = req.body;
     if (content.length <= 0) {
         return res.status(400).json({ ErrorMessage: "내용이 비어있습니다." });
     }
-    const currentUser = await Comments.findOne({ _id: commentId });
+    const currentUser = await Comments.findOne({ date: date });
     if (currentUser) {
         currentUser.content = content;
         await currentUser.save();
