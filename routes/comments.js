@@ -145,7 +145,7 @@ const Comments = require('../schemas/comment');
 const verifyToken = require('../middlewares/auth-middleware');
 const comment_router = express.Router();
 
-comment_router.get("/board/:postId/comments", async (req, res) => {
+comment_router.get("/comments/:postId", async (req, res) => {
     const { postId } = req.params;
     const comments = await Comments.find({}, { _id: 0, id: 1, content: 1, date: 1 })
         .sort("-date").exec();
@@ -157,7 +157,7 @@ comment_router.get("/board/:postId/comments", async (req, res) => {
     }
 });
 
-comment_router.post("/board/:postId/comments", verifyToken, async (req, res) => {
+comment_router.post("/comments/:postId", verifyToken, async (req, res) => {
     const { postId } = req.params;
     const { content } = req.body;
     if (content.length <= 0) {
@@ -169,7 +169,7 @@ comment_router.post("/board/:postId/comments", verifyToken, async (req, res) => 
     };
 })
 
-comment_router.put("/board/comments/:commentId", verifyToken, async (req, res) => {
+comment_router.put("/comments/:commentId", verifyToken, async (req, res) => {
     const { commentId } = req.params;
     const { content, date } = req.body;
     if (content.length <= 0) {
@@ -185,7 +185,7 @@ comment_router.put("/board/comments/:commentId", verifyToken, async (req, res) =
 
 });
 
-comment_router.delete("/board/comments/:commentId", async (req, res) => {
+comment_router.delete("/comments/:commentId", async (req, res) => {
     const { commentId } = req.params;
     const { date } = req.body;
     const currentUser = await Comments.findOne({ date: date, id: commentId });
