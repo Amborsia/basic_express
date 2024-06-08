@@ -20,7 +20,7 @@ const authSchema = new mongoose.Schema({
         minlength: 4,
         validate: {
             validator: function (value) {
-                return !(value, includes(this.nickname));
+                return !value.includes(this.nickname);
             },
             message: '비밀번호는 닉네임과 동일한 값을 포함할 수 없습니다.'
         }
