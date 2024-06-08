@@ -187,7 +187,8 @@ comment_router.put("/board/comments/:commentId", verifyToken, async (req, res) =
 
 comment_router.delete("/board/comments/:commentId", async (req, res) => {
     const { commentId } = req.params;
-    const currentUser = await Comments.findOne({ _id: commentId });
+    const { date } = req.body;
+    const currentUser = await Comments.findOne({ date: date });
     if (!currentUser) {
         return res.status(400).json({ result: "fail" });
     } else {
