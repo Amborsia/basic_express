@@ -80,7 +80,7 @@
 
 /**
  * @swagger
- * /board/{postId}/comments/{commentId}:
+ * /board/comments/{commentId}:
  *   put:
  *     summary: 댓글 수정
  *     description: 게시글에 작성된 댓글을 수정합니다. 댓글 ID를 사용하여 수정할 댓글을 식별하고, 수정할 내용(content)을 입력해야 합니다.
@@ -171,7 +171,7 @@ comment_router.post("/board/:postId/comments", async (req, res) => {
     };
 })
 
-comment_router.put("/board/:postId/comments/:commentId", async (req, res) => {
+comment_router.put("/board/comments/:commentId", async (req, res) => {
     const { commentId } = req.params;
     const { content } = req.body;
     if (content.length <= 0) {
@@ -186,5 +186,6 @@ comment_router.put("/board/:postId/comments/:commentId", async (req, res) => {
     return res.status(400).json({ ErrorMessage: "에러 입니다." })
 
 });
+
 
 module.exports = comment_router;
