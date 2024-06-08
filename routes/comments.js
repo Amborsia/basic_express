@@ -5,7 +5,7 @@
  *   get:
  *     summary: 댓글 목록 조회
  *     description: 게시글에 작성된 모든 댓글을 목록 형식으로 조회합니다. 작성 날짜 기준으로 내림차순 정렬합니다.
- *     tags: [comments]
+ *     tags: [Comments]
  *     parameters:
  *       - in: path
  *         name: postId
@@ -47,8 +47,8 @@
  * @swagger
  * /board/{postId}/comments:
  *   post:
- *     summary: 댓글작성
- *     description: 글에 새로운 댓글을 작성, 만약 비어있다면 에러를 리턴
+ *     summary: 댓글 작성
+ *     description: 게시글에 댓글을 작성합니다. 작성 내용(content)과 작성자의 비밀번호(pw)를 입력해야 합니다.
  *     tags: [Comments]
  *     parameters:
  *       - in: path
@@ -56,7 +56,7 @@
  *         required: true
  *         schema:
  *           type: string
- *         description: The post ID
+ *         description: 게시글 ID
  *     requestBody:
  *       required: true
  *       content:
@@ -66,12 +66,17 @@
  *             properties:
  *               content:
  *                 type: string
+ *                 description: 댓글 내용
+ *               pw:
+ *                 type: string
+ *                 description: 작성자 비밀번호
  *     responses:
- *       201:
- *         description: Comment created
+ *       200:
+ *         description: 성공적으로 댓글이 작성되었습니다.
  *       400:
- *         description: Comment content is required
+ *         description: 댓글 내용이 비어있는 경우
  */
+
 
 /**
  * @swagger
