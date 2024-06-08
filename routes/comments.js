@@ -142,6 +142,7 @@
 
 const express = require('express');
 const Comments = require('../schemas/comment');
+const verifyToken = require('../middlewares/auth-middleware');
 const comment_router = express.Router();
 
 comment_router.get("/board/:postId/comments", async (req, res) => {
@@ -156,13 +157,13 @@ comment_router.get("/board/:postId/comments", async (req, res) => {
     }
 });
 
-comment_router.post("/board/:postId/comments", async (req, res) => {
+comment_router.post("/board/:postId/comments", verifyToken, async (req, res) => {
     const { postId } = req.params;
-    const { content, pw } = req.body;
+    const { content } = req.body;
     if (content.length <= 0) {
         return res.status(400).json({ result: "댓글 내용을 입력해주세요" })
     } else {
-        await Comments.create({ id: postId, date: Date.now(), content: content, pw: pw });
+        await Comments.create({ id: postId, date: Date.now(), content: content });
 
         return res.status(200).json({ result: "너는 못할줄 알았지만 해냈단다." });
     };
