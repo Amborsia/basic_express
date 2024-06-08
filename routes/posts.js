@@ -150,7 +150,7 @@
  * /board/{id}:
  *   put:
  *     summary: 게시글 수정 API
- *     description: 비밀번호가 같다면 포스트를 수정합니다 response body로 pw를 받기때문에 url은 id로 넣습니다
+ *     description: 비밀번호가 같다면 게시글을 수정합니다.
  *     tags: [post]
  *     parameters:
  *       - in: path
@@ -158,26 +158,55 @@
  *         required: true
  *         schema:
  *           type: string
- *         description: POST ID
+ *         description: 게시글 ID
  *     requestBody:
  *       required: true
  *       content:
- *        application/json:
- *          schema:
- *            type: object
- *            properties:
- *                title:
- *                  type: string
- *                content:
- *                  type: string
- *                pw:
- *                  type: string
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               content:
+ *                 type: string
+ *               pw:
+ *                 type: string
+ *             example:
+ *               title: "수정된 제목"
+ *               content: "수정된 내용"
+ *               pw: "1234"
  *     responses:
  *       200:
- *        description: 게시글 수정 완료
- *       400:
- *        descriptrion: 비밀번호 같지 않음
- *                   
+ *         description: 게시글 수정 완료
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 result:
+ *                   type: string
+ *                   example: "넌 완벽히 해냈어!"
+ *       404:
+ *         description: 게시글을 찾을 수 없음 또는 비밀번호가 틀림
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 result:
+ *                   type: string
+ *                   example: "Post Not Found 또는 비밀번호가 틀립니다"
+ *       500:
+ *         description: 서버 오류
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 result:
+ *                   type: string
+ *                   example: "Server error"
  */
 
 /**
