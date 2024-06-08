@@ -2,9 +2,7 @@ const mongoose = require('mongoose');
 
 const goodsSchema = new mongoose.Schema({
     nickname: {
-        type: String,
-        required: true,
-        unique: true
+        type: String
     },
     title: {
         type: String,
@@ -20,4 +18,4 @@ const goodsSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('Goods', goodsSchema);
+module.exports = mongoose.model('Posts', goodsSchema);

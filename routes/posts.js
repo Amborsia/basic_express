@@ -292,10 +292,10 @@ router.get('/board', async (req, res) => {
     }
 });
 
-router.post("/board", async (req, res) => {
+router.post("/board", verifyToken, async (req, res) => {
     console.log(req.body);
-    const { title, content, nickname } = req.body;
-    await Goods.create({ title: title, content: content, nickname: nickname });
+    const { title, content } = req.body;
+    await Goods.create({ title: title, content: content });
     return res.status(201).json({ result: 'success' });
 });
 
