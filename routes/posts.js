@@ -227,4 +227,17 @@ router.post("/board", async (req, res) => {
     return res.status(201).json({ result: 'success' });
 });
 
+router.get('/board/:id', async (req, res) => {
+    const { id } = req.params;
+
+    const boards = await Goods.find({ id: id }, { title: 1, id: 1, date: 1 }).exec();
+
+    // const boards = await Goods.find({goodsId}, { title: 1, id: 1, date: 1 });
+    if (boards.length > 0) {
+        return res.status(200).json({ boards });
+    } else {
+        return res.status(400).json({ result: "fail" });
+    }
+});
+
 module.exports = router;
