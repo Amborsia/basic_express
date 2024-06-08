@@ -168,4 +168,20 @@ comment_router.post("/board/:postId/comments", async (req, res) => {
     };
 })
 
+comment_router.put("/board/:postId/comments/:commentId", async (req, res) => {
+    const { commentId } = req.params;
+    const { content } = req.body;
+    if (content.length <= 0) {
+        return res.status(400).json({ ErrorMessage: "내용이 비어있습니다." });
+    }
+    const currentUser = await Comments.findOne({ _id: commentId });
+    if (currentUser) {
+        currentUser.content = content;
+        await currentUser.save();
+        return res.status(200).json({ result: "으하하하하하하 해냈도다" });
+    }
+    return res.status(400).json({ ErrorMessage: "에러 입니다." })
+
+});
+
 module.exports = comment_router;
