@@ -3,31 +3,44 @@
  * @swagger
  * /board/{postId}/comments:
  *   get:
- *     summary: 댓글 목록을 조회
- *     description: 날짜 내림차순으로 보여줌
- *     tags: [Comments]
+ *     summary: 댓글 목록 조회
+ *     description: 게시글에 작성된 모든 댓글을 목록 형식으로 조회합니다. 작성 날짜 기준으로 내림차순 정렬합니다.
+ *     tags: [comments]
  *     parameters:
  *       - in: path
  *         name: postId
  *         required: true
  *         schema:
  *           type: string
- *         description: The post ID
+ *         description: 게시글 ID
  *     responses:
  *       200:
- *         description: A list of comments
+ *         description: 댓글 목록 조회 성공
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   content:
- *                     type: string
- *                   created_at:
- *                     type: string
- *                     format: date-time
+ *               type: object
+ *               properties:
+ *                 comments:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       content:
+ *                         type: string
+ *                       date:
+ *                         type: string
+ *                         format: date-time
+ *       400:
+ *         description: 댓글 목록 조회 실패
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 result:
+ *                   type: string
+ *                   example: "fail"
  */
 
 /**
@@ -122,11 +135,20 @@
  */
 
 
-
-
-
-
-
 const express = require('express');
+const Comments = require('../schemas/post');
 const comment_router = express.Router();
+
+comment_router.get("/board/:postId/comments", async (req, res) => {
+    const { id } = req.params;
+    const comments = await Comments.find({ id: id }, { content: 1, date: 1 })
+        .sort("-date").exec();
+
+    if (comments.length > 0) {
+        return res.status(200).json({ comments });
+    } else {
+        return res.status(400).json({ result: "fail" });
+    }
+});
+
 module.exports = comment_router;
