@@ -187,5 +187,14 @@ comment_router.put("/board/comments/:commentId", async (req, res) => {
 
 });
 
-
+comment_router.delete("/board/comments/:commentId", async (req, res) => {
+    const { commentId } = req.params;
+    const currentUser = await Comments.findOne({ _id: commentId });
+    if (!currentUser) {
+        return res.status(400).json({ result: "fail" });
+    } else {
+        await currentUser.deleteOne({ commentId });
+        return res.status(200).json({ result: "정상적으로 삭제가 되었다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ" });
+    }
+})
 module.exports = comment_router;
