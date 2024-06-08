@@ -136,12 +136,12 @@
 
 
 const express = require('express');
-const Comments = require('../schemas/post');
+const Comments = require('../schemas/comment');
 const comment_router = express.Router();
 
 comment_router.get("/board/:postId/comments", async (req, res) => {
     const { postId } = req.params;
-    const comments = await Comments.find({ id: postId }, { content: 1, date: 1 })
+    const comments = await Comments.find({}, { _id: 0, id: 1, content: 1, date: 1 })
         .sort("-date").exec();
 
     if (comments.length > 0) {
@@ -151,5 +151,16 @@ comment_router.get("/board/:postId/comments", async (req, res) => {
     }
 });
 
+comment_router.post("/board/:postId/comments", async (req, res) => {
+    const { postId } = req.params;
+    const { content, pw } = req.body;
+    if (content.length <= 0) {
+        return res.status(400).json({ result: "댓글 내용을 입력해주세요" })
+    } else {
+        await Comments.create({ id: postId, date: Date.now(), content: content, pw: pw });
+
+        return res.status(200).json({ result: "너는 못할줄 알았지만 해냈단다." });
+    };
+})
 
 module.exports = comment_router;
