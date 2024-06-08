@@ -83,7 +83,7 @@
  * /board/{postId}/comments/{commentId}:
  *   put:
  *     summary: 댓글 수정
- *     description: 만약 비어있다면 에러를 리턴, 정상적 처리되면 댓글이 수정됨
+ *     description: 게시글에 작성된 댓글을 수정합니다. 댓글 ID를 사용하여 수정할 댓글을 식별하고, 수정할 내용(content)을 입력해야 합니다.
  *     tags: [Comments]
  *     parameters:
  *       - in: path
@@ -91,13 +91,13 @@
  *         required: true
  *         schema:
  *           type: string
- *         description: The post ID
+ *         description: 게시글 ID
  *       - in: path
  *         name: commentId
  *         required: true
  *         schema:
  *           type: string
- *         description: The comment ID
+ *         description: 댓글 ID
  *     requestBody:
  *       required: true
  *       content:
@@ -107,11 +107,14 @@
  *             properties:
  *               content:
  *                 type: string
+ *                 description: 수정할 댓글 내용
  *     responses:
  *       200:
- *         description: Comment updated
+ *         description: 댓글 수정이 성공적으로 수행되었습니다.
  *       400:
- *         description: Comment content is required
+ *         description: 댓글 내용이 비어있는 경우
+ *       404:
+ *         description: 주어진 댓글 ID로 댓글을 찾을 수 없는 경우
  */
 
 /**
