@@ -214,7 +214,7 @@
  * /board/{id}:
  *   delete:
  *     summary: 게시글 삭제 API
- *     description: 비밀번호가 같다면 포스트를 삭제합니다
+ *     description: 비밀번호가 일치하면 게시글을 삭제합니다.
  *     tags: [post]
  *     parameters:
  *       - in: path
@@ -222,22 +222,52 @@
  *         required: true
  *         schema:
  *           type: string
- *         description: POST ID
+ *         description: 게시글 ID
  *     requestBody:
  *       required: true
  *       content:
- *        application/json:
- *          schema:
- *            type: object
- *            properties:
- *                pw:
- *                  type: string
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               pw:
+ *                 type: string
+ *             example:
+ *               title: "첫번째야"
+ *               pw: "1234"
  *     responses:
  *       200:
- *        description: 게시글 삭제 완료
- *       400:
- *        descriptrion: 비밀번호 같지 않음
- *                   
+ *         description: 게시글 삭제 완료
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 result:
+ *                   type: string
+ *                   example: "너는 해내고야 말았어"
+ *       404:
+ *         description: 게시글을 찾을 수 없음 또는 비밀번호가 틀림
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 result:
+ *                   type: string
+ *                   example: "비밀번호가 틀립니다 또는 Fail"
+ *       500:
+ *         description: 서버 오류
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 result:
+ *                   type: string
+ *                   example: "Server error"
  */
 
 
