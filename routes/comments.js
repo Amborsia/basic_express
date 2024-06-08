@@ -119,28 +119,25 @@
 
 /**
  * @swagger
- * /board/{postId}/comments/{commentId}:
+ * /board/comments/{commentId}:
  *   delete:
  *     summary: 댓글 삭제
- *     description: 댓글을 삭제합니다
+ *     description: 주어진 ID를 가진 댓글을 삭제합니다.
  *     tags: [Comments]
  *     parameters:
- *       - in: path
- *         name: postId
- *         required: true
- *         schema:
- *           type: string
- *         description: The post ID
  *       - in: path
  *         name: commentId
  *         required: true
  *         schema:
  *           type: string
- *         description: The comment ID
+ *         description: 삭제할 댓글의 ID
  *     responses:
  *       200:
- *         description: Comment deleted
+ *         description: 댓글이 성공적으로 삭제되었습니다.
+ *       400:
+ *         description: 주어진 ID로 댓글을 찾을 수 없는 경우
  */
+
 
 
 const express = require('express');
