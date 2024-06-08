@@ -12,6 +12,7 @@ const port = 5000;
 
 const commentRoutes = require('./routes/comments');
 const postRoutes = require('./routes/posts');
+const authRoutes = require('./routes/auth');
 const connect = require('./schemas');
 // const indexRoutes = require('./routes/index');
 // const userRoutes = require('./routes/users');
@@ -21,7 +22,7 @@ connect();
 // app.use('/api/comments', commentRoutes);
 // app.use('/api/posts', postRoutes);
 app.use(express.json()); //json 파싱해서 req.body 만들어줌
-app.use("/api", [commentRoutes, postRoutes]);
+app.use("/api", [commentRoutes, postRoutes, authRoutes]);
 
 
 
