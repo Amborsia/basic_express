@@ -298,4 +298,22 @@ router.put('/board/:id', async (req, res) => {
     return res.status(200).json({ result: '넌 완벽히 해냈어!' });
 });
 
+router.delete('/board/:id', async (req, res) => {
+    const { id } = req.params;
+    const { title, pw } = req.body;
+
+    const currentId = await Goods.findOne({ title: title, id: id })
+    if (currentId) {
+        if (currentId.pw !== pw) {
+            return res.status(404).json({ result: "비밀번호가 틀립니다" });
+        } else {
+            await Goods.deleteOne({ title, id });
+            return res.status(200).json({ result: "너는 해내고야 말았어" });
+        }
+    } else {
+        return res.status(404).json({ result: "Fail" });
+    }
+
+})
+
 module.exports = router;
