@@ -140,8 +140,8 @@ const Comments = require('../schemas/post');
 const comment_router = express.Router();
 
 comment_router.get("/board/:postId/comments", async (req, res) => {
-    const { id } = req.params;
-    const comments = await Comments.find({ id: id }, { content: 1, date: 1 })
+    const { postId } = req.params;
+    const comments = await Comments.find({ id: postId }, { content: 1, date: 1 })
         .sort("-date").exec();
 
     if (comments.length > 0) {
@@ -150,5 +150,6 @@ comment_router.get("/board/:postId/comments", async (req, res) => {
         return res.status(400).json({ result: "fail" });
     }
 });
+
 
 module.exports = comment_router;
