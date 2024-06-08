@@ -252,4 +252,21 @@ router.get('/board/:id', async (req, res) => {
     }
 });
 
+router.put('/board/:id', async (req, res) => {
+    const { id } = req.params;
+    const { title, content, pw } = req.body;
+
+    const currentBoard = await Goods.findOne({ title: title });
+    if (currentBoard.id !== id) {
+        return res.status(404).json({ result: "Post Not Found" });
+    }
+    if (currentBoard.pw !== pw) {
+        return res.status(404).json({ result: "비밀번호가 틀립니다" });
+    }
+    currentBoard.content = content;
+    currentBoard.title = title;
+    await currentBoard.save();
+    return res.status(200).json({ result: '넌 완벽히 해냈어!' });
+});
+
 module.exports = router;
