@@ -97,40 +97,52 @@
  *                   description: 에러 메시지
  */
 
+// 특정 ID의 게시글 조회
 /**
  * @swagger
  * /board/{id}:
  *   get:
- *     summary: 게시글 조회 post
- *     description: 제목, 작성자, 작성된 날짜 및 내용이 있는 게시물을 검색합니다.
+ *     summary: 특정 게시글 조회
  *     tags: [post]
+ *     description: ID로 특정 게시글을 조회합니다.
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         description: POST ID
+ *         description: 게시글의 사용자 ID
  *     responses:
  *       200:
- *         description: 게시글 조회
+ *         description: 게시글 조회 성공
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 title:
+ *                 boards:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: string
+ *                       id:
+ *                         type: string
+ *                       title:
+ *                         type: string
+ *                       date:
+ *                         type: string
+ *       400:
+ *         description: 잘못된 요청
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 result:
  *                   type: string
- *                 name:
- *                   type: string
- *                 date:
- *                   type: string
- *                   format: date-time
- *                 content:
- *                   type: string
- * 
- * 
- *                   
+ *                   example: fail
  */
 
 /**
