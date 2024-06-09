@@ -3,6 +3,7 @@ const express = require('express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const dot = require('dotenv');
 
 
@@ -25,6 +26,7 @@ connect();
 // app.use('/api/comments', commentRoutes);
 // app.use('/api/posts', postRoutes);
 app.use(cookieParser());
+app.use(cors());
 app.use(express.json()); //json 파싱해서 req.body 만들어줌
 app.use("/api", [commentRoutes, postRoutes, authRoutes]);
 

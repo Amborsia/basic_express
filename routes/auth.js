@@ -33,6 +33,7 @@
  *   post:
  *     summary: 유저 로그인
  *     description: 이메일과 비밀번호로 유저 로그인을 수행합니다.
+ *     tags: [User]
  *     requestBody:
  *       required: true
  *       content:

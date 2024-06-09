@@ -1,60 +1,67 @@
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     BoardSummary:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *         nickname:
+ *           type: string
+ *         title:
+ *           type: string
+ *         date:
+ *           type: string
+ *           format: date-time
+ *     BoardDetail:
+ *       type: object
+ *       properties:
+ *         title:
+ *           type: string
+ *         nickname:
+ *           type: string
+ *         date:
+ *           type: string
+ *           format: date-time
+ *         content:
+ *           type: string
+ */
 
 /**
  * @swagger
  * tags:
- *   name: post
- *   description: 게시글관련 작업이 이쪽입니다~~~~
+ *   name: Board
+ *   description: Board management
  */
 
 /**
  * @swagger
  * /board:
  *   get:
- *     summary: 게시글 목록 조회
- *     tags: [post]
- *     description: 게시글 목록을 조회합니다.
+ *     summary: Retrieves all board posts
+ *     tags: [Board]
  *     responses:
  *       200:
- *         description: 성공적으로 게시글 목록을 조회한 경우
+ *         description: The list of board posts
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 goods:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: string
- *                         description: 게시글의 ID
- *                       title:
- *                         type: string
- *                         description: 게시글의 제목
- *                       date:
- *                         type: string
- *                         format: date-time
- *                         description: 게시글 작성 날짜
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/BoardSummary'
  *       400:
- *         description: 게시글 조회 실패한 경우
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 errorMessage:
- *                   type: string
- *                   description: 에러 메시지
+ *         description: Error message
  */
 
 /**
  * @swagger
- * /board:
+ * /api/board:
  *   post:
- *     summary: 게시글 작성
- *     tags: [post]
- *     description: 새로운 게시글을 작성합니다.
+ *     summary: Creates a new board post
+ *     tags: [Board]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -64,101 +71,55 @@
  *             properties:
  *               title:
  *                 type: string
- *                 description: 게시글 제목
- *               id:
- *                 type: string
- *                 description: 작성자 ID
- *               pw:
- *                 type: string
- *                 description: 게시글 비밀번호
  *               content:
  *                 type: string
- *                 description: 게시글 내용
  *     responses:
  *       201:
- *         description: 새로운 게시글이 성공적으로 작성된 경우
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 result:
- *                   type: string
- *                   description: 요청 결과
+ *         description: Successfully created
  *       400:
- *         description: 요청이 잘못된 경우
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 errorMessage:
- *                   type: string
- *                   description: 에러 메시지
+ *         description: Error message
  */
 
-// 특정 ID의 게시글 조회
 /**
  * @swagger
- * /board/{id}:
+ * /api/board/{id}:
  *   get:
- *     summary: 특정 게시글 조회
- *     tags: [post]
- *     description: ID로 특정 게시글을 조회합니다.
+ *     summary: Retrieves a board post by ID
+ *     tags: [Board]
  *     parameters:
  *       - in: path
  *         name: id
- *         required: true
  *         schema:
  *           type: string
- *         description: 게시글의 사용자 ID
+ *         required: true
+ *         description: The board post ID
  *     responses:
  *       200:
- *         description: 게시글 조회 성공
+ *         description: The board post description by ID
  *         content:
  *           application/json:
  *             schema:
  *               type: object
- *               properties:
- *                 boards:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       _id:
- *                         type: string
- *                       id:
- *                         type: string
- *                       title:
- *                         type: string
- *                       date:
- *                         type: string
+ *               $ref: '#/components/schemas/Board'
  *       400:
- *         description: 잘못된 요청
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 result:
- *                   type: string
- *                   example: fail
+ *         description: Error message
  */
 
 /**
  * @swagger
- * /board/{id}:
+ * /api/board/{id}:
  *   put:
- *     summary: 게시글 수정 API
- *     description: 비밀번호가 같다면 게시글을 수정합니다.
- *     tags: [post]
+ *     summary: Updates a board post by ID
+ *     tags: [Board]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
- *         required: true
  *         schema:
  *           type: string
- *         description: 게시글 ID
+ *         required: true
+ *         description: The board post ID
  *     requestBody:
  *       required: true
  *       content:
@@ -166,63 +127,33 @@
  *           schema:
  *             type: object
  *             properties:
- *               title:
- *                 type: string
  *               content:
  *                 type: string
- *               pw:
+ *               date:
  *                 type: string
- *             example:
- *               title: "수정된 제목"
- *               content: "수정된 내용"
- *               pw: "1234"
+ *                 format: date-time
  *     responses:
  *       200:
- *         description: 게시글 수정 완료
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 result:
- *                   type: string
- *                   example: "넌 완벽히 해냈어!"
- *       404:
- *         description: 게시글을 찾을 수 없음 또는 비밀번호가 틀림
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 result:
- *                   type: string
- *                   example: "Post Not Found 또는 비밀번호가 틀립니다"
- *       500:
- *         description: 서버 오류
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 result:
- *                   type: string
- *                   example: "Server error"
+ *         description: Successfully updated
+ *       400:
+ *         description: Error message
  */
 
 /**
  * @swagger
- * /board/{id}:
+ * /api/board/{id}:
  *   delete:
- *     summary: 게시글 삭제 API
- *     description: 비밀번호가 일치하면 게시글을 삭제합니다.
- *     tags: [post]
+ *     summary: Deletes a board post by ID
+ *     tags: [Board]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
- *         required: true
  *         schema:
  *           type: string
- *         description: 게시글 ID
+ *         required: true
+ *         description: The board post ID
  *     requestBody:
  *       required: true
  *       content:
@@ -230,49 +161,15 @@
  *           schema:
  *             type: object
  *             properties:
- *               title:
+ *               date:
  *                 type: string
- *               pw:
- *                 type: string
- *             example:
- *               title: "첫번째야"
- *               pw: "1234"
+ *                 format: date-time
  *     responses:
  *       200:
- *         description: 게시글 삭제 완료
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 result:
- *                   type: string
- *                   example: "너는 해내고야 말았어"
+ *         description: Successfully deleted
  *       404:
- *         description: 게시글을 찾을 수 없음 또는 비밀번호가 틀림
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 result:
- *                   type: string
- *                   example: "비밀번호가 틀립니다 또는 Fail"
- *       500:
- *         description: 서버 오류
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 result:
- *                   type: string
- *                   example: "Server error"
+ *         description: Error message
  */
-
-
-
-
 
 
 const express = require('express');
@@ -282,11 +179,11 @@ const verifyToken = require('../middlewares/auth-middleware');
 
 
 router.get('/board', async (req, res) => {
-    const goods = await Goods.find({}, { _id: 0, nickname: 1, title: 1, date: 1 })
+    const board = await Goods.find({}, { _id: 1, nickname: 1, title: 1, date: 1 })
         .sort("-date").exec();
-
-    if (goods) {
-        return res.status(200).json({ goods: goods });
+    console.log("보드 겟 요청 시작합니당");
+    if (board) {
+        return res.status(200).json({ board: board });
     } else {
         return res.status(400).json({ Errormessage: '게시글 조회 실패' });
     }
