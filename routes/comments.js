@@ -1,10 +1,9 @@
-
 /**
  * @swagger
- * /board/{postId}/comments:
+ * /api/comments/{postId}:
  *   get:
- *     summary: 댓글 목록 조회
- *     description: 게시글에 작성된 모든 댓글을 목록 형식으로 조회합니다. 작성 날짜 기준으로 내림차순 정렬합니다.
+ *     summary: 댓글 목록을 조회
+ *     description: 날짜 내림차순으로 댓글을 조회합니다.
  *     tags: [Comments]
  *     parameters:
  *       - in: path
@@ -12,27 +11,50 @@
  *         required: true
  *         schema:
  *           type: string
- *         description: 게시글 ID
+ *         description: The post ID
  *     responses:
  *       200:
- *         description: 댓글 목록 조회 성공
+ *         description: A list of comments
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 comments:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       content:
- *                         type: string
- *                       date:
- *                         type: string
- *                         format: date-time
- *       400:
- *         description: 댓글 목록 조회 실패
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   content:
+ *                     type: string
+ *                   created_at:
+ *                     type: string
+ *                     format: date-time
+ */
+
+/**
+ * @swagger
+ * /api/comments/{postId}:
+ *   post:
+ *     summary: 댓글 작성
+ *     description: 글에 새로운 댓글을 작성, 만약 비어있다면 에러를 리턴
+ *     tags: [Comments]
+ *     parameters:
+ *       - in: path
+ *         name: postId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The post ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               content:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Comment created
  *         content:
  *           application/json:
  *             schema:
@@ -40,50 +62,25 @@
  *               properties:
  *                 result:
  *                   type: string
- *                   example: "fail"
- */
-
-/**
- * @swagger
- * /board/{postId}/comments:
- *   post:
- *     summary: 댓글 작성
- *     description: 게시글에 댓글을 작성합니다. 작성 내용(content)과 작성자의 비밀번호(pw)를 입력해야 합니다.
- *     tags: [Comments]
- *     parameters:
- *       - in: path
- *         name: postId
- *         required: true
- *         schema:
- *           type: string
- *         description: 게시글 ID
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               content:
- *                 type: string
- *                 description: 댓글 내용
- *               pw:
- *                 type: string
- *                 description: 작성자 비밀번호
- *     responses:
- *       200:
- *         description: 성공적으로 댓글이 작성되었습니다.
+ *                   example: "Comment created"
  *       400:
- *         description: 댓글 내용이 비어있는 경우
+ *         description: Comment content is required
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Comment content is required"
  */
-
 
 /**
  * @swagger
- * /board/comments/{commentId}:
+ * /api/comments/{commentId}:
  *   put:
  *     summary: 댓글 수정
- *     description: 게시글에 작성된 댓글을 수정합니다. 댓글 ID를 사용하여 수정할 댓글을 식별하고, 수정할 내용(content)을 입력해야 합니다.
+ *     description: 만약 비어있다면 에러를 리턴, 정상적 처리되면 댓글이 수정됨
  *     tags: [Comments]
  *     parameters:
  *       - in: path
@@ -91,13 +88,13 @@
  *         required: true
  *         schema:
  *           type: string
- *         description: 게시글 ID
+ *         description: The post ID
  *       - in: path
  *         name: commentId
  *         required: true
  *         schema:
  *           type: string
- *         description: 댓글 ID
+ *         description: The comment ID
  *     requestBody:
  *       required: true
  *       content:
@@ -107,36 +104,62 @@
  *             properties:
  *               content:
  *                 type: string
- *                 description: 수정할 댓글 내용
  *     responses:
  *       200:
- *         description: 댓글 수정이 성공적으로 수행되었습니다.
+ *         description: Comment updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 result:
+ *                   type: string
+ *                   example: "Comment updated"
  *       400:
- *         description: 댓글 내용이 비어있는 경우
- *       404:
- *         description: 주어진 댓글 ID로 댓글을 찾을 수 없는 경우
+ *         description: Comment content is required
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Comment content is required"
  */
 
 /**
  * @swagger
- * /board/comments/{commentId}:
+ * /api/comments/{commentId}:
  *   delete:
  *     summary: 댓글 삭제
- *     description: 주어진 ID를 가진 댓글을 삭제합니다.
+ *     description: 댓글을 삭제합니다
  *     tags: [Comments]
  *     parameters:
+ *       - in: path
+ *         name: postId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The post ID
  *       - in: path
  *         name: commentId
  *         required: true
  *         schema:
  *           type: string
- *         description: 삭제할 댓글의 ID
+ *         description: The comment ID
  *     responses:
  *       200:
- *         description: 댓글이 성공적으로 삭제되었습니다.
- *       400:
- *         description: 주어진 ID로 댓글을 찾을 수 없는 경우
+ *         description: Comment deleted
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 result:
+ *                   type: string
+ *                   example: "Comment deleted"
  */
+
 
 
 

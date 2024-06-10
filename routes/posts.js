@@ -37,7 +37,7 @@
 
 /**
  * @swagger
- * /board:
+ * /api/board:
  *   get:
  *     summary: Retrieves all board posts
  *     tags: [Board]
@@ -99,8 +99,7 @@
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               $ref: '#/components/schemas/Board'
+ *               $ref: '#/components/schemas/BoardDetail'
  *       400:
  *         description: Error message
  */
@@ -154,22 +153,13 @@
  *           type: string
  *         required: true
  *         description: The board post ID
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               date:
- *                 type: string
- *                 format: date-time
  *     responses:
  *       200:
  *         description: Successfully deleted
  *       404:
  *         description: Error message
  */
+
 
 
 const express = require('express');
@@ -189,42 +179,44 @@ router.get('/board', async (req, res) => {
     }
 });
 
-router.post("/board", verifyToken, async (req, res) => {
+router.post("/board", async (req, res) => {
     console.log(req.body);
     const { title, content } = req.body;
-    await Goods.create({ title: title, content: content, email: req.user.email, nickname: res.locals.nickname });
+    await Goods.create({ title: title, content: content, date: new Date() });
     return res.status(201).json({ result: 'success' });
 });
 
 router.get('/board/:id', async (req, res) => {
     const { id } = req.params;
-    const boards = await Goods.find({ email: id }, { _id: 0, title: 1, nickname: 1, date: 1, content: 1 }).exec();
+    const board = await Goods.findOne({ _id: id }, { _id: 0, title: 1, nickname: 1, date: 1, content: 1 }).exec();
+    console.log(board);
     // const boards = await Goods.find({goodsId}, { title: 1, id: 1, date: 1 });
-    if (boards.length > 0) {
-        return res.status(200).json({ boards });
+    if (board) {
+        return res.status(200).json(board);
     } else {
         return res.status(400).json({ result: "fail" });
     }
 });
 
-router.put('/board/:id', verifyToken, async (req, res) => {
+router.put('/board/:id', async (req, res) => {
     const { id } = req.params;
-    const { content, date } = req.body;
+    const { content, title } = req.body;
 
-    const currentBoard = await Goods.findOne({ date: date });
+    const currentBoard = await Goods.findOne({ _id: id });
     currentBoard.content = content;
+    currentBoard.title = title;
+    currentBoard.date = new Date();
     await currentBoard.save();
     return res.status(200).json({ result: '넌 완벽히 해냈어!' });
 });
 
-router.delete('/board/:id', verifyToken, async (req, res) => {
+router.delete('/board/:id', async (req, res) => {
     const { id } = req.params;
-    const { date } = req.body;
-
-    const currentId = await Goods.findOne({ email: id, date: date })
+    console.log('삭제 들어옴');
+    const currentId = await Goods.findOne({ _id: id })
     if (currentId) {
-
-        await Goods.deleteOne({ date });
+        console.log(currentId);
+        await Goods.deleteOne({ _id: id });
         return res.status(200).json({ result: "너는 해내고야 말았어" });
 
     } else {

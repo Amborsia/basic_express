@@ -18,6 +18,9 @@ const goodsSchema = new mongoose.Schema({
     },
     email: {
         type: String
+    },
+    _id: {
+        type: String
     }
 })
 

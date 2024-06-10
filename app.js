@@ -43,7 +43,7 @@ const swaggerDefinition = {
     },
     servers: [
         {
-            url: 'http://13.125.209.146:4000',
+            url: 'http://3.38.179.237:4000',
             description: 'Development server',
         },
     ],
